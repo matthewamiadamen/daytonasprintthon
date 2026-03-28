@@ -1,6 +1,6 @@
 # Orchestration Layer
 
-**Owner: Person 3**
+**Owner: Cormac**
 
 This is the entry point of the entire system. It takes a raw user prompt and turns it into everything the simulation layer needs to run — a structured scenario, a set of fully fleshed-out actor files, and a game theory profile for each actor.
 

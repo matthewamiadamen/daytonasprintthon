@@ -1,0 +1,16 @@
+{
+  "id": "A",
+  "name": "BioVentures Ltd",
+  "type": "Early-stage biotech, Series A",
+  "known_decisions": ["Rejected acquisition offer in 2023", "Co-developed IP with a competitor"],
+  "financial_position": "18 months runway, needs deal to survive",
+  "public_stance": "Founder committed to keeping IP in-house",
+  "demographic_prior": "Early stage biotech typically prioritises runway preservation over optimal deal terms.",
+  "game_theory_profile": {
+    "rationality": "semi-rational",
+    "primary_bias": "loss aversion",
+    "strategy_tendency": "cooperative until cornered, then unpredictable",
+    "decision_model": "prospect theory",
+    "known_weaknesses": ["sunk cost on IP position", "overweights short-term survival"]
+  }
+}

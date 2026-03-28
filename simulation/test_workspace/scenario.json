@@ -1,0 +1,12 @@
+{
+  "title": "Biotech Licensing Negotiation",
+  "type": "multi-round negotiation",
+  "rounds": 3,
+  "actors": ["BioVentures Ltd", "NovaTech Inc", "PharmaGiant Corp"],
+  "payoff_structure": {
+    "win_condition": "Secure licensing deal with best terms",
+    "zero_sum": false,
+    "cooperation_possible": true
+  },
+  "context": "Three early-stage biotechs competing and occasionally cooperating to land an exclusive licensing deal. Resource constraints are asymmetric."
+}

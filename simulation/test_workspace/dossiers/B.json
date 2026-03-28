@@ -1,0 +1,16 @@
+{
+  "id": "B",
+  "name": "NovaTech Inc",
+  "type": "Mid-stage biotech, Series B",
+  "known_decisions": ["Aggressively pursued patent portfolio expansion in 2024", "Hired ex-Pfizer VP"],
+  "financial_position": "Well-funded, 3 years runway",
+  "public_stance": "CEO targets becoming the dominant platform",
+  "demographic_prior": "Mid-stage biotechs with strong funding tend toward aggressive acquisition of IP.",
+  "game_theory_profile": {
+    "rationality": "rational",
+    "primary_bias": "overconfidence",
+    "strategy_tendency": "aggressive, seeks dominant position",
+    "decision_model": "expected utility maximisation",
+    "known_weaknesses": ["underestimates cooperative counter-strategies", "overcommits to aggressive plays"]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "C",
+  "name": "PharmaGiant Corp",
+  "type": "Large pharma incumbent",
+  "known_decisions": ["Acquired two small biotechs in hostile takeovers", "Slashed R&D budget"],
+  "financial_position": "Massive cash reserves, no urgency",
+  "public_stance": "Board demands cost-efficient deals",
+  "demographic_prior": "Large pharma incumbents use size and patience as leverage.",
+  "game_theory_profile": {
+    "rationality": "irrational",
+    "primary_bias": "anchoring — locks onto initial position",
+    "strategy_tendency": "patient aggressor, waits for desperation then lowballs",
+    "decision_model": "bounded rationality with emotional escalation",
+    "known_weaknesses": ["ego-driven escalation when challenged", "sunk cost on failed acquisitions"]
+  }
+}
