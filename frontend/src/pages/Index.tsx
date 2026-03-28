@@ -29,7 +29,7 @@ const Index = () => {
       <Navbar showAuth={view === "landing"} />
       {view === "landing" && <LandingPage onLaunch={() => goToSetup()} onUseCase={(s) => goToSetup(s)} />}
       {view === "setup" && <SetupView initialScenario={initialScenario} onLaunch={handleLaunch} />}
-      {view === "running" && <RunningView totalRuns={totalRuns} onComplete={() => setView("results")} />}
+      {view === "running" && <RunningView totalRuns={totalRuns} onComplete={() => setView("results")} onCancel={() => setView("setup")} />}
       {view === "results" && <ResultsView totalRuns={totalRuns} onReset={() => { setInitialScenario(""); setView("landing"); }} />}
     </div>
   );

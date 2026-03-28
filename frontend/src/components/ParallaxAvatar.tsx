@@ -1,17 +1,14 @@
-import dragonAvatar from "@/assets/dragon-avatar.png";
+import parallaxOpen from "@/assets/parallax-logo-open.png";
 
 const ParallaxAvatar = () => (
-  <div className="relative w-44 h-44 mx-auto animate-float">
-    {/* Outer glow */}
-    <div className="absolute inset-0 rounded-full bg-violet/30 blur-3xl" />
-    <div className="absolute inset-0 rounded-full bg-violet-light/20 blur-2xl" />
-    {/* Dragon avatar */}
+  <div className="relative w-56 h-56 mx-auto">
+    {/* Subtle glow behind the logo */}
+    <div className="absolute inset-0 rounded-full bg-violet/15 blur-3xl animate-pulse-glow" />
+    {/* Parallax open logo */}
     <img
-      src={dragonAvatar}
-      alt="Parallax Dragon"
-      width={512}
-      height={512}
-      className="relative w-full h-full object-contain drop-shadow-[0_0_30px_rgba(124,58,237,0.5)]"
+      src={parallaxOpen}
+      alt="Parallax"
+      className="relative w-full h-full object-contain drop-shadow-[0_0_40px_rgba(124,58,237,0.4)]"
     />
   </div>
 );

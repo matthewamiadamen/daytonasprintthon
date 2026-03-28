@@ -36,8 +36,11 @@ const LandingPage = ({ onLaunch, onUseCase }: Props) => (
       <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-3 gradient-text opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
         Hi, I'm Parallax.
       </h1>
+      <p className="text-xl md:text-2xl font-semibold text-foreground/80 mb-2 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}>
+        Predictive Game Theory, Engineered.
+      </p>
       <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.55s", animationFillMode: "forwards" }}>
-        I simulate negotiations so you don't have to guess. Tell me who's at the table, and I'll show you who walks away with what.
+        You tell me the actors. I'll tell you the outcome.
       </p>
 
       {/* Feature pills */}
