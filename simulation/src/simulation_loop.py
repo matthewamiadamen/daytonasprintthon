@@ -23,7 +23,7 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from openai import OpenAI
+import anthropic
 
 # ---------------------------------------------------------------------------
 # Paths — defaults match the Daytona sandbox layout from run_parallel.py.
@@ -36,10 +36,12 @@ DECISION_LOG_PATH = WORKSPACE / "decision_log.json"
 RESULT_PATH = WORKSPACE / "result.json"
 
 # ---------------------------------------------------------------------------
-# LLM configuration
+# LLM configuration — uses Claude via Anthropic API.
+# Set ANTHROPIC_API_KEY in your environment.
 # ---------------------------------------------------------------------------
-MODEL = os.environ.get("SIM_MODEL", "gpt-4o")
-client = OpenAI()  # reads OPENAI_API_KEY and OPENAI_BASE_URL from env
+MODEL = os.environ.get("SIM_MODEL", "claude-sonnet-4-20250514")
+client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+MAX_TOKENS = int(os.environ.get("SIM_MAX_TOKENS", "1024"))
 
 
 # ---------------------------------------------------------------------------
@@ -106,13 +108,37 @@ class Agent:
     the LLM with the actor's profile and the current game state.
     """
 
-    def __init__(self, dossier: dict, scenario: dict):
+    def __init__(self, dossier: dict, scenario: dict, all_dossiers: list):
         self.id = dossier["id"]
         self.name = dossier["name"]
         self.dossier = dossier
         self.profile = dossier.get("game_theory_profile", {})
         self.scenario = scenario
+        # Build a compact summary of every OTHER actor so this agent knows
+        # who it is dealing with — without stuffing full dossiers into context.
+        self._other_actors_summary = self._summarise_others(all_dossiers)
         self.system_prompt = self._build_system_prompt()
+
+    @staticmethod
+    def _summarise_others(all_dossiers: list) -> str:
+        """
+        Build a concise (token-cheap) summary of every actor so each agent
+        understands who the other players are.  We include name, type,
+        financial stance, key bias, and strategy tendency — enough for the
+        agent to reason about opponents without duplicating full dossiers.
+        """
+        lines = []
+        for d in all_dossiers:
+            gtp = d.get("game_theory_profile", {})
+            line = (
+                f"- {d.get('name', '?')} ({d.get('id', '?')}): "
+                f"{d.get('type', 'unknown type')}. "
+                f"Finance: {d.get('financial_position', 'unknown')}. "
+                f"Bias: {gtp.get('primary_bias', 'none noted')}. "
+                f"Tendency: {gtp.get('strategy_tendency', 'unknown')}."
+            )
+            lines.append(line)
+        return "\n".join(lines)
 
     def _build_system_prompt(self) -> str:
         rationality_block = _build_rationality_block(self.profile)
@@ -143,6 +169,7 @@ class Agent:
             f"You are {self.name}, participating in a game theory simulation.\n\n"
             f"=== SCENARIO ===\n{scenario_block}\n\n"
             f"=== YOUR DOSSIER ===\n{dossier_block}\n\n"
+            f"=== THE OTHER ACTORS ===\n{self._other_actors_summary}\n\n"
             f"=== YOUR DECISION PROFILE ===\n{rationality_block}\n\n"
             "=== RULES ===\n"
             "Each round you see everything every actor has done so far. "
@@ -188,17 +215,17 @@ class Agent:
         if "irrational" in self.profile.get("rationality", "").lower():
             temp = 0.9
 
-        response = client.chat.completions.create(
+        response = client.messages.create(
             model=MODEL,
+            max_tokens=MAX_TOKENS,
+            system=self.system_prompt,
             messages=[
-                {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": user_msg},
             ],
-            response_format={"type": "json_object"},
             temperature=temp,
         )
 
-        raw = response.choices[0].message.content
+        raw = response.content[0].text
         try:
             parsed = json.loads(raw)
         except json.JSONDecodeError:
@@ -387,15 +414,15 @@ class SimulationEngine:
             "Respond ONLY with the JSON object."
         )
 
-        response = client.chat.completions.create(
+        response = client.messages.create(
             model=MODEL,
+            max_tokens=MAX_TOKENS,
             messages=[{"role": "user", "content": prompt}],
-            response_format={"type": "json_object"},
             temperature=0.3,
         )
 
         try:
-            return json.loads(response.choices[0].message.content)
+            return json.loads(response.content[0].text)
         except json.JSONDecodeError:
             # Fallback: determine winner by highest payoff
             winner_id = max(payoffs, key=payoffs.get) if payoffs else "tie"
@@ -422,11 +449,16 @@ def load_json(path: Path) -> dict:
 
 
 def load_agents(dossiers_dir: Path, scenario: dict) -> list:
-    """Load all actor dossier JSON files and create Agent instances."""
-    agents = []
+    """Load all actor dossier JSON files and create Agent instances.
+    Each agent receives the full list of dossiers so it can build a
+    compact awareness of who the other actors are."""
+    all_dossiers = []
     for dossier_file in sorted(dossiers_dir.glob("*.json")):
-        dossier = load_json(dossier_file)
-        agents.append(Agent(dossier, scenario))
+        all_dossiers.append(load_json(dossier_file))
+
+    agents = []
+    for dossier in all_dossiers:
+        agents.append(Agent(dossier, scenario, all_dossiers))
     return agents
 
 
