@@ -24,6 +24,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic
+from dotenv import load_dotenv
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT_DIR / ".env")
 
 # ---------------------------------------------------------------------------
 # Paths — defaults match the Daytona sandbox layout from run_parallel.py.
@@ -37,7 +41,7 @@ RESULT_PATH = WORKSPACE / "result.json"
 
 # ---------------------------------------------------------------------------
 # LLM configuration — uses Claude via Anthropic API.
-# Set ANTHROPIC_API_KEY in your environment.
+# Set ANTHROPIC_API_KEY in your environment or in the repo-root .env file.
 # ---------------------------------------------------------------------------
 MODEL = os.environ.get("SIM_MODEL", "claude-sonnet-4-20250514")
 client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
