@@ -1,0 +1,29 @@
+{
+  "id": "lufthansa",
+  "name": "Lufthansa",
+  "type": "German flag carrier, Lufthansa Group, Star Alliance anchor, XETRA:LHA",
+  "known_decisions": [
+    "2024: Acquired 41% stake in Italian carrier ITA Airways — extended feeder network to Milan Malpensa, adding transatlantic feed points",
+    "2023: Launched new Allegris business class across widebody fleet — direct response to Delta One and BA Club Suite",
+    "2022: Completed €6B government bailout repayment ahead of schedule — regained strategic flexibility",
+    "2021: Suspended 18 routes permanently post-COVID — accepted permanent slot loss to restructure cost base",
+    "2020: Negotiated ver.di pilot agreements allowing 15% pay cuts in exchange for job guarantees — avoided mass redundancies",
+    "2019: Blocked Condor acquisition to prevent low-cost competitor gaining access to Lufthansa codeshare traffic"
+  ],
+  "financial_position": "LHG FY2024: Revenue €36.4B, adjusted EBIT €2.7B. TATL RASM €0.098, below Delta and UA. Net debt €8.9B. Fleet: 315 widebody aircraft — largest in Europe. CapEx €3B/yr through 2027.",
+  "public_stance": "CEO Carsten Spohr has stated Lufthansa will 'defend Frankfurt as Europe's premier hub by volume and connectivity'. Has publicly criticised UK slot regulations as protecting BA at cost of competition. Stated intent to close RASM gap with Delta via Allegris product by 2026.",
+  "demographic_prior": "German corporate governance creates slower, more consensus-based decision-making (Aufsichtsrat board oversight, union co-determination). Incumbent carriers with dual-hub structures are more conservative — they protect both hubs even when optimising one would improve economics. Lufthansa systematically over-analyses before acting, which reduces errors but increases response latency.",
+  "game_theory_profile": {
+    "rationality": "fully-rational",
+    "decision_model": "expected utility maximisation with long planning horizon; unusually good at avoiding sunk cost traps",
+    "primary_bias": "anchoring on Frankfurt hub dominance — decisions evaluated first through FRA lens, which can suboptimise Munich routes",
+    "strategy_tendency": "systematic incumbent defence — coordinates with United via Star Alliance JV before solo moves; reacts to threats with thorough analysis before responding; rarely makes impulsive decisions",
+    "known_weaknesses": [
+      "Labour relations create strike risk in high-demand periods — 3 pilot strikes 2022-2024 cost €450M in revenue",
+      "Dual-hub complexity means capital deployed at both FRA and MUC rather than concentrating advantage",
+      "German political economy means government has input on route strategy for national-interest destinations",
+      "Slower product renewal cycle than Delta — Allegris launch took 3 years longer than originally scheduled"
+    ],
+    "rationality_derived": "fully-rational — systematic, long-horizon, union-constrained, FRA-anchored"
+  }
+}

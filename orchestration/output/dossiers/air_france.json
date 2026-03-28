@@ -1,0 +1,29 @@
+{
+  "id": "air_france",
+  "name": "Air France",
+  "type": "French flag carrier, Air France-KLM Group, SkyTeam anchor, EPA:AF",
+  "known_decisions": [
+    "2024: Voted against increasing TATL capacity above 2019 levels — deferred to Delta's lead in JV revenue pool discussions",
+    "2023: Delayed La Premiere first-class refurbishment 12 months citing cash constraints — signalled capacity over quality",
+    "2022: Accepted French government 'ecological transition' conditions on domestic routes as price of bailout — banned some CDG-Paris routes",
+    "2021: Formed deep-cooperation agreement with Delta and KLM into unified transatlantic JV — ceded some commercial independence in exchange for revenue pool stability",
+    "2020: French government injected €7B in state aid — triggered EU conditions including surrender of Orly slots to easyJet",
+    "2019: Strike action by Air France pilots cost €335M — management capitulated to union demands including 7% pay rise"
+  ],
+  "financial_position": "AF-KLM FY2024: Revenue €32.5B, operating profit €1.3B — lowest margin of the five. Air France TATL RASM ~€0.088. French government retains 28.6% stake. Highest CASM of the five (~€0.135) driven by labour costs.",
+  "public_stance": "CEO Ben Smith has stated Air France will 'grow profitably, not just grow'. Constrained by French political environment — government expects Air France to maintain routes to French Overseas Territories and Francophone Africa regardless of profitability. Public position: follow Delta's lead on transatlantic strategy.",
+  "demographic_prior": "Partially state-owned flag carriers in high-labour-cost environments have the weakest commercial flexibility. They follow alliance partners' decisions because they lack the financial strength to lead strategically. French corporate governance and union influence create predictable conservative patterns — Air France rarely surprises.",
+  "game_theory_profile": {
+    "rationality": "semi-rational",
+    "decision_model": "satisficing under political constraints — optimises within the set of politically acceptable options, not the full strategic space",
+    "primary_bias": "bandwagon effect — follows Delta and industry consensus rather than independent analysis; herding within SkyTeam JV",
+    "strategy_tendency": "reactive follower — waits 2-3 rounds for Delta/Lufthansa to signal direction before committing; avoids being first mover on capacity or pricing changes",
+    "known_weaknesses": [
+      "Highest cost structure of the five — CASM €0.135 vs Delta €0.105, creating permanent margin disadvantage",
+      "French government stake creates political veto over commercially rational decisions (route cuts, alliance changes)",
+      "La Premiere product stagnation losing premium passengers to Delta One and BA Club Suite",
+      "Labour union power means capacity adjustments are slow and expensive compared to US peers"
+    ],
+    "rationality_derived": "semi-rational — politically constrained, bandwagon follower, high-cost, Delta-dependent"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "british_airways",
+  "name": "British Airways",
+  "type": "UK flag carrier, IAG subsidiary, oneworld anchor",
+  "known_decisions": [
+    "2024: Filed legal challenge against UK government proposal to introduce secondary slot trading — would dilute BA's LHR T5 portfolio value",
+    "2023: Invested £750M in Club Suite retrofit for all 787/A350 widebodies — largest product investment in BA history",
+    "2022: Launched 'New Club World' marketing campaign targeting Delta One and Singapore Business Class comparison — premium price parity ambition",
+    "2021: Reduced LHR frequencies below pre-COVID levels and accepted slot waivers rather than operate ghost flights — protected grandfather rights",
+    "2019: Refused to sub-lease LHR slots to Norwegian for cash, despite Norwegian's distress — preferred to see competitor fail than gain short-term revenue",
+    "2018: BA/AA/IB JV expanded to include more South American city-pairs — slots leveraged as negotiating chip with American Airlines"
+  ],
+  "financial_position": "IAG FY2024: Operating profit £2.7B, BA contributing ~55%. BA TATL RASM £0.108 (premium-heavy route mix). LHR slot portfolio estimated at £8-12B replacement value. Elevated net debt constraining fleet order activity.",
+  "public_stance": "BA CEO Sean Doyle has stated Heathrow slots are 'BA's most valuable strategic asset — not for sale at any price'. Publicly lobbied against Heathrow expansion if it requires slot redistribution. Position: premium-first, volume-second, always.",
+  "demographic_prior": "Flag carriers with dominant legacy hub positions treat their slot portfolio like real estate — they defend it legally, politically, and commercially. Specialists in oligopolies compete on quality rather than price and accept lower load factors to protect yield. British Airways has structural incentive to cooperate with American Airlines given JV immunity.",
+  "game_theory_profile": {
+    "rationality": "semi-rational",
+    "decision_model": "satisficing with hard floor on slot portfolio — will accept suboptimal revenue outcomes to prevent any slot dilution",
+    "primary_bias": "status quo bias — deeply attached to Heathrow slot grandfather rights; any change to current position treated as catastrophic",
+    "strategy_tendency": "premium niche defender; cooperates with oneworld partners; lobbies regulators aggressively; price-follower not price-setter on economy cabin",
+    "known_weaknesses": [
+      "LHR expansion cap means BA cannot grow even when demand supports it — structurally constrained upside",
+      "Club Suite retrofit not yet complete — until 2025, product gap vs Delta One persists on some aircraft",
+      "IAG balance sheet still recovering — limited capital for aggressive slot acquisition bids",
+      "Government and media scrutiny in UK constrains ability to cut routes to politically sensitive destinations"
+    ],
+    "rationality_derived": "semi-rational — status quo bias, slot-obsessed, premium niche, limited growth capital"
+  }
+}

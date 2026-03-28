@@ -1,0 +1,1199 @@
+{
+  "metadata": {
+    "generated_at": "2026-03-28T14:15:19.474454Z",
+    "scenario_name": "Transatlantic Route Competition",
+    "domain": "commercial aviation",
+    "agent_count": 5,
+    "market_structure": "oligopoly"
+  },
+  "agent_profiles": [
+    {
+      "id": "united",
+      "archetype": "incumbent",
+      "role_description": "Star Alliance anchor carrier with dominant Newark hub; largest US carrier on transatlantic routes by departures",
+      "market_position": "Market leader on US-Europe O&D with ~22% capacity share",
+      "resource_constraints": [
+        "High legacy cost structure (CASM ~14.5 cents)",
+        "Aging widebody fleet requiring CapEx ($2.1B 787/777X orders outstanding)",
+        "Hub concentration risk at EWR (slot-constrained)"
+      ],
+      "competitive_advantages": [
+        "Deepest Star Alliance network (56 partners) enabling seamless connection revenue",
+        "Polaris business class rated top-tier on premium routes",
+        "Strong corporate travel contracts (Fortune 500 concentration in NYC/Chicago)"
+      ],
+      "behavioral_traits": [
+        "Defend existing slot portfolio aggressively \u2014 loss averse on LHR slots",
+        "Leverage Star Alliance depth before bidding unilateral capacity",
+        "Respond to Delta pricing moves within 48 hours on competitive O&Ds"
+      ],
+      "decision_variables": [
+        {
+          "name": "slot_bid_value",
+          "type": "continuous",
+          "range": "[0, 150] million USD per slot pair per season",
+          "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "capacity_allocation",
+          "type": "continuous",
+          "range": "[0, 100] percent change vs baseline weekly frequencies",
+          "description": "Weekly seat capacity deployed on each transatlantic route cluster",
+          "agent_specific": true,
+          "importance_weight": 0.8
+        },
+        {
+          "name": "business_class_price",
+          "type": "continuous",
+          "range": "[2000, 12000] USD one-way full-flex fare",
+          "description": "Yield management anchor price for business cabin on transatlantic routes",
+          "agent_specific": true,
+          "importance_weight": 0.6
+        },
+        {
+          "name": "economy_price",
+          "type": "continuous",
+          "range": "[300, 1800] USD one-way",
+          "description": "Base economy fare; drives load factor and connecting traffic stimulation",
+          "agent_specific": true,
+          "importance_weight": 0.6
+        },
+        {
+          "name": "alliance_offer",
+          "type": "categorical",
+          "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+          "description": "Level of commercial coordination offered to alliance partners this round",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "fleet_deployment",
+          "type": "categorical",
+          "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+          "description": "Widebody aircraft type assigned to transatlantic rotation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "lounge_investment",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "regulatory_lobby",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to activate regulatory lobbying to block competitor slot applications",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        }
+      ],
+      "objectives": [
+        {
+          "name": "revenue_per_asm",
+          "optimization": "maximize",
+          "weight": 0.35,
+          "description": "Revenue per available seat mile \u2014 primary profitability metric for TATL operations",
+          "priority": "tertiary"
+        },
+        {
+          "name": "slot_portfolio_value",
+          "optimization": "maximize",
+          "weight": 0.25,
+          "description": "Strategic value of slot holdings at Level 3 airports (LHR, JFK, FRA)",
+          "priority": "tertiary"
+        },
+        {
+          "name": "market_share",
+          "optimization": "maximize",
+          "weight": 0.18,
+          "description": "Percentage share of North Atlantic O&D passengers",
+          "priority": "tertiary"
+        },
+        {
+          "name": "premium_cabin_yield",
+          "optimization": "maximize",
+          "weight": 0.15,
+          "description": "Average revenue per business/first class seat \u2014 key driver of total profitability",
+          "priority": "tertiary"
+        },
+        {
+          "name": "operating_cost",
+          "optimization": "minimize",
+          "weight": 0.05,
+          "description": "Cost per available seat mile (CASM) \u2014 efficiency metric",
+          "priority": "tertiary"
+        }
+      ],
+      "utility_function": {
+        "type": "profit_maximization",
+        "formula": "U_united = sum(w_i * V_i)",
+        "primary_formula": "profit = revenue - costs",
+        "components": [
+          "revenue",
+          "operating_costs",
+          "fixed_costs",
+          "marginal_costs"
+        ],
+        "weighted_components": [
+          {
+            "component": "revenue_per_asm",
+            "weight": 0.35,
+            "optimization": "maximize"
+          },
+          {
+            "component": "slot_portfolio_value",
+            "weight": 0.25,
+            "optimization": "maximize"
+          },
+          {
+            "component": "market_share",
+            "weight": 0.18,
+            "optimization": "maximize"
+          }
+        ],
+        "constraints": [
+          "Maximum slot acquisition capped at regulatory limits under EU-US Open Skies Agreement",
+          "Heathrow Movement Cap: no carrier may file operations that would push LHR above 480,000 annual ATMs",
+          "Alliance anti-trust immunity: Star Alliance (UA/LH) and SkyTeam (DL/AF) JV partners may not set prices independently on immunised routes"
+        ]
+      },
+      "information_access": {
+        "private": [
+          "own_costs",
+          "own_capacity",
+          "own_strategy",
+          "private_forecasts"
+        ],
+        "public": [
+          "market_structure",
+          "historical_prices",
+          "aggregate_demand",
+          "regulatory_framework"
+        ]
+      },
+      "risk_profile": {
+        "risk_tolerance": "low",
+        "risk_preference": "risk_averse",
+        "downside_sensitivity": 0.7,
+        "upside_sensitivity": 0.5
+      },
+      "rationality_bounds": {
+        "computational_depth": "high",
+        "information_processing": "systematic",
+        "biases": [
+          "status_quo",
+          "sunk_cost"
+        ]
+      }
+    },
+    {
+      "id": "delta",
+      "archetype": "challenger",
+      "role_description": "SkyTeam lead carrier aggressively expanding transatlantic premium capacity via JFK hub build-out and Air France-KLM partnership deepening",
+      "market_position": "Strong #2 with fastest premium cabin growth 2022-2025",
+      "resource_constraints": [
+        "JFK Terminal 4 capacity ceiling limiting widebody rotations",
+        "SkyTeam integration costs with Air France-KLM post-COVID restructuring",
+        "High hedging losses in 2022-2023 reducing available capital"
+      ],
+      "competitive_advantages": [
+        "Delta One business suite rated #1 by multiple surveys \u2014 pricing power +12% vs peers",
+        "Fastest fleet renewal (A321XLR deliveries accelerating narrow-body TATL)",
+        "Highest on-time performance metric in industry (2022-2024)"
+      ],
+      "behavioral_traits": [
+        "Undercut incumbents on leisure routes to capture market share then reprice",
+        "Deepen Air France-KLM JV to create de facto merged network across Atlantic",
+        "Invest in differentiated premium product to justify premium yield"
+      ],
+      "decision_variables": [
+        {
+          "name": "slot_bid_value",
+          "type": "continuous",
+          "range": "[0, 150] million USD per slot pair per season",
+          "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "capacity_allocation",
+          "type": "continuous",
+          "range": "[0, 100] percent change vs baseline weekly frequencies",
+          "description": "Weekly seat capacity deployed on each transatlantic route cluster",
+          "agent_specific": true,
+          "importance_weight": 0.7
+        },
+        {
+          "name": "business_class_price",
+          "type": "continuous",
+          "range": "[2000, 12000] USD one-way full-flex fare",
+          "description": "Yield management anchor price for business cabin on transatlantic routes",
+          "agent_specific": true,
+          "importance_weight": 0.9
+        },
+        {
+          "name": "economy_price",
+          "type": "continuous",
+          "range": "[300, 1800] USD one-way",
+          "description": "Base economy fare; drives load factor and connecting traffic stimulation",
+          "agent_specific": true,
+          "importance_weight": 0.9
+        },
+        {
+          "name": "alliance_offer",
+          "type": "categorical",
+          "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+          "description": "Level of commercial coordination offered to alliance partners this round",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "fleet_deployment",
+          "type": "categorical",
+          "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+          "description": "Widebody aircraft type assigned to transatlantic rotation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "lounge_investment",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "regulatory_lobby",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to activate regulatory lobbying to block competitor slot applications",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        }
+      ],
+      "objectives": [
+        {
+          "name": "revenue_per_asm",
+          "optimization": "maximize",
+          "weight": 0.35,
+          "description": "Revenue per available seat mile \u2014 primary profitability metric for TATL operations",
+          "priority": "tertiary"
+        },
+        {
+          "name": "slot_portfolio_value",
+          "optimization": "maximize",
+          "weight": 0.25,
+          "description": "Strategic value of slot holdings at Level 3 airports (LHR, JFK, FRA)",
+          "priority": "tertiary"
+        },
+        {
+          "name": "market_share",
+          "optimization": "maximize",
+          "weight": 0.24,
+          "description": "Percentage share of North Atlantic O&D passengers",
+          "priority": "tertiary"
+        },
+        {
+          "name": "premium_cabin_yield",
+          "optimization": "maximize",
+          "weight": 0.15,
+          "description": "Average revenue per business/first class seat \u2014 key driver of total profitability",
+          "priority": "tertiary"
+        },
+        {
+          "name": "operating_cost",
+          "optimization": "minimize",
+          "weight": 0.05,
+          "description": "Cost per available seat mile (CASM) \u2014 efficiency metric",
+          "priority": "tertiary"
+        }
+      ],
+      "utility_function": {
+        "type": "profit_maximization",
+        "formula": "U_delta = sum(w_i * V_i)",
+        "primary_formula": "profit = revenue - costs",
+        "components": [
+          "revenue",
+          "operating_costs",
+          "fixed_costs",
+          "marginal_costs"
+        ],
+        "weighted_components": [
+          {
+            "component": "revenue_per_asm",
+            "weight": 0.35,
+            "optimization": "maximize"
+          },
+          {
+            "component": "slot_portfolio_value",
+            "weight": 0.25,
+            "optimization": "maximize"
+          },
+          {
+            "component": "market_share",
+            "weight": 0.24,
+            "optimization": "maximize"
+          }
+        ],
+        "constraints": [
+          "Maximum slot acquisition capped at regulatory limits under EU-US Open Skies Agreement",
+          "Heathrow Movement Cap: no carrier may file operations that would push LHR above 480,000 annual ATMs",
+          "Alliance anti-trust immunity: Star Alliance (UA/LH) and SkyTeam (DL/AF) JV partners may not set prices independently on immunised routes"
+        ]
+      },
+      "information_access": {
+        "private": [
+          "Air France-KLM JV revenue-sharing formula and thresholds",
+          "Delta One premium demand forecast by corridor (proprietary)",
+          "A321XLR delivery schedule and planned route assignments",
+          "Corporate RFP win rates vs United on key accounts"
+        ],
+        "public": [
+          "Investor day guidance on transatlantic margin targets",
+          "Filed schedules and capacity data",
+          "Delta One suite product specification",
+          "SkyTeam membership and co-chair commitments"
+        ]
+      },
+      "risk_profile": {
+        "risk_tolerance": "medium-high",
+        "risk_preference": "risk_neutral",
+        "downside_sensitivity": 0.5,
+        "upside_sensitivity": 0.6
+      },
+      "rationality_bounds": {
+        "computational_depth": "medium",
+        "information_processing": "heuristic",
+        "biases": [
+          "overconfidence",
+          "availability"
+        ]
+      }
+    },
+    {
+      "id": "british_airways",
+      "archetype": "specialist",
+      "role_description": "IAG flagship carrier leveraging Heathrow dominance and Club World premium brand for premium-heavy transatlantic revenue model",
+      "market_position": "Heathrow slot incumbent with 40%+ capacity share at LHR T5",
+      "resource_constraints": [
+        "Heathrow expansion blocked \u2014 LHR capped at 480k movements/year",
+        "IAG balance sheet recovery post-COVID (net debt still elevated)",
+        "Legacy pension obligations constraining labour flexibility"
+      ],
+      "competitive_advantages": [
+        "Largest LHR slot portfolio \u2014 irreplaceable strategic asset",
+        "oneworld premium network (AA, Iberia, Finnair) enabling premium through-connections",
+        "Club World suite and Concorde Room lounges as premium differentiators"
+      ],
+      "behavioral_traits": [
+        "Prioritise premium yield protection over volume \u2014 will sacrifice load factor for RASM",
+        "Lobby regulators aggressively to defend LHR slot grandfather rights",
+        "Resist slot give-ups \u2014 any slot lost is permanent competitive disadvantage"
+      ],
+      "decision_variables": [
+        {
+          "name": "slot_bid_value",
+          "type": "continuous",
+          "range": "[0, 150] million USD per slot pair per season",
+          "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "capacity_allocation",
+          "type": "continuous",
+          "range": "[0, 100] percent change vs baseline weekly frequencies",
+          "description": "Weekly seat capacity deployed on each transatlantic route cluster",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "business_class_price",
+          "type": "continuous",
+          "range": "[2000, 12000] USD one-way full-flex fare",
+          "description": "Yield management anchor price for business cabin on transatlantic routes",
+          "agent_specific": true,
+          "importance_weight": 0.4
+        },
+        {
+          "name": "economy_price",
+          "type": "continuous",
+          "range": "[300, 1800] USD one-way",
+          "description": "Base economy fare; drives load factor and connecting traffic stimulation",
+          "agent_specific": true,
+          "importance_weight": 0.4
+        },
+        {
+          "name": "alliance_offer",
+          "type": "categorical",
+          "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+          "description": "Level of commercial coordination offered to alliance partners this round",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "fleet_deployment",
+          "type": "categorical",
+          "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+          "description": "Widebody aircraft type assigned to transatlantic rotation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "lounge_investment",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "regulatory_lobby",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to activate regulatory lobbying to block competitor slot applications",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        }
+      ],
+      "objectives": [
+        {
+          "name": "revenue_per_asm",
+          "optimization": "maximize",
+          "weight": 0.35,
+          "description": "Revenue per available seat mile \u2014 primary profitability metric for TATL operations",
+          "priority": "tertiary"
+        },
+        {
+          "name": "slot_portfolio_value",
+          "optimization": "maximize",
+          "weight": 0.25,
+          "description": "Strategic value of slot holdings at Level 3 airports (LHR, JFK, FRA)",
+          "priority": "tertiary"
+        },
+        {
+          "name": "premium_cabin_yield",
+          "optimization": "maximize",
+          "weight": 0.15,
+          "description": "Average revenue per business/first class seat \u2014 key driver of total profitability",
+          "priority": "tertiary"
+        },
+        {
+          "name": "market_share",
+          "optimization": "maximize",
+          "weight": 0.12,
+          "description": "Percentage share of North Atlantic O&D passengers",
+          "priority": "tertiary"
+        },
+        {
+          "name": "operating_cost",
+          "optimization": "minimize",
+          "weight": 0.05,
+          "description": "Cost per available seat mile (CASM) \u2014 efficiency metric",
+          "priority": "tertiary"
+        }
+      ],
+      "utility_function": {
+        "type": "profit_maximization",
+        "formula": "U_british_airways = sum(w_i * V_i)",
+        "primary_formula": "profit = revenue - costs",
+        "components": [
+          "revenue",
+          "operating_costs",
+          "fixed_costs",
+          "marginal_costs"
+        ],
+        "weighted_components": [
+          {
+            "component": "revenue_per_asm",
+            "weight": 0.35,
+            "optimization": "maximize"
+          },
+          {
+            "component": "slot_portfolio_value",
+            "weight": 0.25,
+            "optimization": "maximize"
+          },
+          {
+            "component": "premium_cabin_yield",
+            "weight": 0.15,
+            "optimization": "maximize"
+          }
+        ],
+        "constraints": [
+          "Maximum slot acquisition capped at regulatory limits under EU-US Open Skies Agreement",
+          "Heathrow Movement Cap: no carrier may file operations that would push LHR above 480,000 annual ATMs",
+          "Alliance anti-trust immunity: Star Alliance (UA/LH) and SkyTeam (DL/AF) JV partners may not set prices independently on immunised routes"
+        ]
+      },
+      "information_access": {
+        "private": [
+          "Exact number of LHR T5 slots available for sub-lease",
+          "IAG internal EBITDA target per transatlantic route",
+          "Confidential yield data from BA/AA/IB joint venture revenue pool",
+          "Lounge upgrade capex budget and timing"
+        ],
+        "public": [
+          "Filed OAG schedule showing capacity by route",
+          "Publicly reported slot holdings in IATA database",
+          "Annual report financial metrics",
+          "oneworld alliance membership and co-chair commitments"
+        ]
+      },
+      "risk_profile": {
+        "risk_tolerance": "medium",
+        "risk_preference": "risk_neutral",
+        "downside_sensitivity": 0.5,
+        "upside_sensitivity": 0.6
+      },
+      "rationality_bounds": {
+        "computational_depth": "medium-high",
+        "information_processing": "focused",
+        "biases": [
+          "confirmation",
+          "anchoring"
+        ]
+      }
+    },
+    {
+      "id": "lufthansa",
+      "archetype": "incumbent",
+      "role_description": "Star Alliance co-anchor with dual Frankfurt/Munich hub strategy and largest European widebody fleet",
+      "market_position": "Dominant European legacy carrier with 18% transatlantic capacity share",
+      "resource_constraints": [
+        "German labour relations (ver.di/Cockpit) create strike risk and cost rigidity",
+        "Dual hub complexity (FRA + MUC) increasing fixed costs vs single-hub peers",
+        "EU state aid conditions from 2020 bailout restricting some expansion"
+      ],
+      "competitive_advantages": [
+        "Business Class Senator Lounge network strongest in Europe",
+        "Deep cargo network on widebodies cross-subsidises passenger yield",
+        "Swiss/Austrian/Brussels Airlines feeder traffic reduces seat-mile cost"
+      ],
+      "behavioral_traits": [
+        "Defensive on Frankfurt slots \u2014 treat FRA dominance as non-negotiable",
+        "Coordinate with United via Star Alliance JV before making solo capacity decisions",
+        "Systematic, analytical decision process \u2014 slower to react but rarely makes strategic errors"
+      ],
+      "decision_variables": [
+        {
+          "name": "slot_bid_value",
+          "type": "continuous",
+          "range": "[0, 150] million USD per slot pair per season",
+          "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "capacity_allocation",
+          "type": "continuous",
+          "range": "[0, 100] percent change vs baseline weekly frequencies",
+          "description": "Weekly seat capacity deployed on each transatlantic route cluster",
+          "agent_specific": true,
+          "importance_weight": 0.8
+        },
+        {
+          "name": "business_class_price",
+          "type": "continuous",
+          "range": "[2000, 12000] USD one-way full-flex fare",
+          "description": "Yield management anchor price for business cabin on transatlantic routes",
+          "agent_specific": true,
+          "importance_weight": 0.6
+        },
+        {
+          "name": "economy_price",
+          "type": "continuous",
+          "range": "[300, 1800] USD one-way",
+          "description": "Base economy fare; drives load factor and connecting traffic stimulation",
+          "agent_specific": true,
+          "importance_weight": 0.6
+        },
+        {
+          "name": "alliance_offer",
+          "type": "categorical",
+          "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+          "description": "Level of commercial coordination offered to alliance partners this round",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "fleet_deployment",
+          "type": "categorical",
+          "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+          "description": "Widebody aircraft type assigned to transatlantic rotation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "lounge_investment",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "regulatory_lobby",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to activate regulatory lobbying to block competitor slot applications",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        }
+      ],
+      "objectives": [
+        {
+          "name": "revenue_per_asm",
+          "optimization": "maximize",
+          "weight": 0.35,
+          "description": "Revenue per available seat mile \u2014 primary profitability metric for TATL operations",
+          "priority": "tertiary"
+        },
+        {
+          "name": "slot_portfolio_value",
+          "optimization": "maximize",
+          "weight": 0.25,
+          "description": "Strategic value of slot holdings at Level 3 airports (LHR, JFK, FRA)",
+          "priority": "tertiary"
+        },
+        {
+          "name": "market_share",
+          "optimization": "maximize",
+          "weight": 0.18,
+          "description": "Percentage share of North Atlantic O&D passengers",
+          "priority": "tertiary"
+        },
+        {
+          "name": "premium_cabin_yield",
+          "optimization": "maximize",
+          "weight": 0.15,
+          "description": "Average revenue per business/first class seat \u2014 key driver of total profitability",
+          "priority": "tertiary"
+        },
+        {
+          "name": "operating_cost",
+          "optimization": "minimize",
+          "weight": 0.05,
+          "description": "Cost per available seat mile (CASM) \u2014 efficiency metric",
+          "priority": "tertiary"
+        }
+      ],
+      "utility_function": {
+        "type": "profit_maximization",
+        "formula": "U_lufthansa = sum(w_i * V_i)",
+        "primary_formula": "profit = revenue - costs",
+        "components": [
+          "revenue",
+          "operating_costs",
+          "fixed_costs",
+          "marginal_costs"
+        ],
+        "weighted_components": [
+          {
+            "component": "revenue_per_asm",
+            "weight": 0.35,
+            "optimization": "maximize"
+          },
+          {
+            "component": "slot_portfolio_value",
+            "weight": 0.25,
+            "optimization": "maximize"
+          },
+          {
+            "component": "market_share",
+            "weight": 0.18,
+            "optimization": "maximize"
+          }
+        ],
+        "constraints": [
+          "Maximum slot acquisition capped at regulatory limits under EU-US Open Skies Agreement",
+          "Heathrow Movement Cap: no carrier may file operations that would push LHR above 480,000 annual ATMs",
+          "Alliance anti-trust immunity: Star Alliance (UA/LH) and SkyTeam (DL/AF) JV partners may not set prices independently on immunised routes"
+        ]
+      },
+      "information_access": {
+        "private": [
+          "own_costs",
+          "own_capacity",
+          "own_strategy",
+          "private_forecasts"
+        ],
+        "public": [
+          "market_structure",
+          "historical_prices",
+          "aggregate_demand",
+          "regulatory_framework"
+        ]
+      },
+      "risk_profile": {
+        "risk_tolerance": "low",
+        "risk_preference": "risk_averse",
+        "downside_sensitivity": 0.7,
+        "upside_sensitivity": 0.5
+      },
+      "rationality_bounds": {
+        "computational_depth": "high",
+        "information_processing": "systematic",
+        "biases": [
+          "status_quo",
+          "sunk_cost"
+        ]
+      }
+    },
+    {
+      "id": "air_france",
+      "archetype": "follower",
+      "role_description": "SkyTeam co-anchor at CDG with strong leisure/VFR traffic base but lagging premium cabin product vs peers; post-COVID restructuring constraining growth",
+      "market_position": "4th largest carrier on North Atlantic by RASM; CDG hub strong but not slot-constrained",
+      "resource_constraints": [
+        "French labour regulations (CGT) creating highest CASM among the five (~15.8 cents)",
+        "La Premiere first-class niche product limits total addressable premium revenue",
+        "French government 18% ownership creates political constraints on restructuring"
+      ],
+      "competitive_advantages": [
+        "CDG uncongested vs LHR/JFK \u2014 easier to add frequencies on demand",
+        "Air France-KLM JV with Delta creates de facto merged network",
+        "Strongest leisure/VFR corridor to French-speaking markets (West Africa, Caribbean)"
+      ],
+      "behavioral_traits": [
+        "Follow Delta's lead on alliance and pricing decisions before acting independently",
+        "Protect French government-sensitive routes (CDG-Montreal, CDG-New York) politically",
+        "React to competitor capacity additions within 2-3 rounds rather than anticipating"
+      ],
+      "decision_variables": [
+        {
+          "name": "slot_bid_value",
+          "type": "continuous",
+          "range": "[0, 150] million USD per slot pair per season",
+          "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "capacity_allocation",
+          "type": "continuous",
+          "range": "[0, 100] percent change vs baseline weekly frequencies",
+          "description": "Weekly seat capacity deployed on each transatlantic route cluster",
+          "agent_specific": true,
+          "importance_weight": 0.6
+        },
+        {
+          "name": "business_class_price",
+          "type": "continuous",
+          "range": "[2000, 12000] USD one-way full-flex fare",
+          "description": "Yield management anchor price for business cabin on transatlantic routes",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "economy_price",
+          "type": "continuous",
+          "range": "[300, 1800] USD one-way",
+          "description": "Base economy fare; drives load factor and connecting traffic stimulation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "alliance_offer",
+          "type": "categorical",
+          "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+          "description": "Level of commercial coordination offered to alliance partners this round",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "fleet_deployment",
+          "type": "categorical",
+          "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+          "description": "Widebody aircraft type assigned to transatlantic rotation",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "lounge_investment",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        },
+        {
+          "name": "regulatory_lobby",
+          "type": "binary",
+          "range": "{0, 1}",
+          "description": "Whether to activate regulatory lobbying to block competitor slot applications",
+          "agent_specific": true,
+          "importance_weight": 0.5
+        }
+      ],
+      "objectives": [
+        {
+          "name": "revenue_per_asm",
+          "optimization": "maximize",
+          "weight": 0.35,
+          "description": "Revenue per available seat mile \u2014 primary profitability metric for TATL operations",
+          "priority": "tertiary"
+        },
+        {
+          "name": "slot_portfolio_value",
+          "optimization": "maximize",
+          "weight": 0.25,
+          "description": "Strategic value of slot holdings at Level 3 airports (LHR, JFK, FRA)",
+          "priority": "tertiary"
+        },
+        {
+          "name": "premium_cabin_yield",
+          "optimization": "maximize",
+          "weight": 0.15,
+          "description": "Average revenue per business/first class seat \u2014 key driver of total profitability",
+          "priority": "tertiary"
+        },
+        {
+          "name": "market_share",
+          "optimization": "maximize",
+          "weight": 0.14,
+          "description": "Percentage share of North Atlantic O&D passengers",
+          "priority": "tertiary"
+        },
+        {
+          "name": "operating_cost",
+          "optimization": "minimize",
+          "weight": 0.05,
+          "description": "Cost per available seat mile (CASM) \u2014 efficiency metric",
+          "priority": "tertiary"
+        }
+      ],
+      "utility_function": {
+        "type": "profit_maximization",
+        "formula": "U_air_france = sum(w_i * V_i)",
+        "primary_formula": "profit = revenue - costs",
+        "components": [
+          "revenue",
+          "operating_costs",
+          "fixed_costs",
+          "marginal_costs"
+        ],
+        "weighted_components": [
+          {
+            "component": "revenue_per_asm",
+            "weight": 0.35,
+            "optimization": "maximize"
+          },
+          {
+            "component": "slot_portfolio_value",
+            "weight": 0.25,
+            "optimization": "maximize"
+          },
+          {
+            "component": "premium_cabin_yield",
+            "weight": 0.15,
+            "optimization": "maximize"
+          }
+        ],
+        "constraints": [
+          "Maximum slot acquisition capped at regulatory limits under EU-US Open Skies Agreement",
+          "Heathrow Movement Cap: no carrier may file operations that would push LHR above 480,000 annual ATMs",
+          "Alliance anti-trust immunity: Star Alliance (UA/LH) and SkyTeam (DL/AF) JV partners may not set prices independently on immunised routes"
+        ]
+      },
+      "information_access": {
+        "private": [
+          "own_costs",
+          "own_capacity",
+          "own_strategy",
+          "private_forecasts"
+        ],
+        "public": [
+          "market_structure",
+          "historical_prices",
+          "aggregate_demand",
+          "regulatory_framework"
+        ]
+      },
+      "risk_profile": {
+        "risk_tolerance": "low-medium",
+        "risk_preference": "risk_neutral",
+        "downside_sensitivity": 0.5,
+        "upside_sensitivity": 0.6
+      },
+      "rationality_bounds": {
+        "computational_depth": "medium",
+        "information_processing": "reactive",
+        "biases": [
+          "bandwagon",
+          "herding"
+        ]
+      }
+    }
+  ],
+  "decision_space": {
+    "continuous_variables": [
+      {
+        "name": "slot_bid_value",
+        "range": "[0, 150] million USD per slot pair per season",
+        "description": "Amount bid in IATA slot auction for each additional slot pair at hub airports"
+      },
+      {
+        "name": "capacity_allocation",
+        "range": "[0, 100] percent change vs baseline weekly frequencies",
+        "description": "Weekly seat capacity deployed on each transatlantic route cluster"
+      },
+      {
+        "name": "business_class_price",
+        "range": "[2000, 12000] USD one-way full-flex fare",
+        "description": "Yield management anchor price for business cabin on transatlantic routes"
+      },
+      {
+        "name": "economy_price",
+        "range": "[300, 1800] USD one-way",
+        "description": "Base economy fare; drives load factor and connecting traffic stimulation"
+      }
+    ],
+    "discrete_variables": [],
+    "binary_variables": [
+      {
+        "name": "lounge_investment",
+        "range": "{0, 1}",
+        "description": "Whether to invest in hub lounge upgrade this round (improves premium yield next round)"
+      },
+      {
+        "name": "regulatory_lobby",
+        "range": "{0, 1}",
+        "description": "Whether to activate regulatory lobbying to block competitor slot applications"
+      }
+    ],
+    "categorical_variables": [
+      {
+        "name": "alliance_offer",
+        "range": "{deepen_JV, maintain_current, reduce_coordination, exit_agreement}",
+        "description": "Level of commercial coordination offered to alliance partners this round"
+      },
+      {
+        "name": "fleet_deployment",
+        "range": "{777X, 787-9, A350-900, A330-300, retire_type}",
+        "description": "Widebody aircraft type assigned to transatlantic rotation"
+      }
+    ],
+    "total_dimensions": 8,
+    "joint_space_size": "infinite"
+  },
+  "information_structure": {
+    "agents": [
+      "united",
+      "delta",
+      "british_airways",
+      "lufthansa",
+      "air_france"
+    ],
+    "knowledge_matrix": {
+      "united": {
+        "knows_own": true,
+        "knows_public": true,
+        "knows_private_of_others": false,
+        "can_infer_about": []
+      },
+      "delta": {
+        "knows_own": true,
+        "knows_public": true,
+        "knows_private_of_others": false,
+        "can_infer_about": [],
+        "custom_private": [
+          "Air France-KLM JV revenue-sharing formula and thresholds",
+          "Delta One premium demand forecast by corridor (proprietary)",
+          "A321XLR delivery schedule and planned route assignments",
+          "Corporate RFP win rates vs United on key accounts"
+        ]
+      },
+      "british_airways": {
+        "knows_own": true,
+        "knows_public": true,
+        "knows_private_of_others": false,
+        "can_infer_about": [],
+        "custom_private": [
+          "Exact number of LHR T5 slots available for sub-lease",
+          "IAG internal EBITDA target per transatlantic route",
+          "Confidential yield data from BA/AA/IB joint venture revenue pool",
+          "Lounge upgrade capex budget and timing"
+        ]
+      },
+      "lufthansa": {
+        "knows_own": true,
+        "knows_public": true,
+        "knows_private_of_others": false,
+        "can_infer_about": []
+      },
+      "air_france": {
+        "knows_own": true,
+        "knows_public": true,
+        "knows_private_of_others": false,
+        "can_infer_about": []
+      }
+    },
+    "information_partition": {
+      "common_knowledge": [
+        "market_structure",
+        "rules_of_game",
+        "payoff_functions"
+      ],
+      "private_knowledge": [
+        "own_costs",
+        "own_type",
+        "own_strategy"
+      ]
+    }
+  },
+  "interaction_matrix": {
+    "united": {
+      "united": {
+        "type": "self",
+        "intensity": 0
+      },
+      "delta": {
+        "type": "competitive",
+        "intensity": 0.8,
+        "description": "Direct competition in shared market space"
+      },
+      "british_airways": {
+        "type": "competitive",
+        "intensity": 0.3,
+        "description": "Direct competition in shared market space"
+      },
+      "lufthansa": {
+        "type": "competitive",
+        "intensity": 0.9,
+        "description": "Direct competition in shared market space"
+      },
+      "air_france": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      }
+    },
+    "delta": {
+      "united": {
+        "type": "competitive",
+        "intensity": 0.8,
+        "description": "Direct competition in shared market space"
+      },
+      "delta": {
+        "type": "self",
+        "intensity": 0
+      },
+      "british_airways": {
+        "type": "competitive",
+        "intensity": 0.5,
+        "description": "Direct competition in shared market space"
+      },
+      "lufthansa": {
+        "type": "competitive",
+        "intensity": 0.8,
+        "description": "Direct competition in shared market space"
+      },
+      "air_france": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      }
+    },
+    "british_airways": {
+      "united": {
+        "type": "competitive",
+        "intensity": 0.3,
+        "description": "Direct competition in shared market space"
+      },
+      "delta": {
+        "type": "competitive",
+        "intensity": 0.5,
+        "description": "Direct competition in shared market space"
+      },
+      "british_airways": {
+        "type": "self",
+        "intensity": 0
+      },
+      "lufthansa": {
+        "type": "competitive",
+        "intensity": 0.3,
+        "description": "Direct competition in shared market space"
+      },
+      "air_france": {
+        "type": "competitive",
+        "intensity": 0.2,
+        "description": "Direct competition in shared market space"
+      }
+    },
+    "lufthansa": {
+      "united": {
+        "type": "competitive",
+        "intensity": 0.9,
+        "description": "Direct competition in shared market space"
+      },
+      "delta": {
+        "type": "competitive",
+        "intensity": 0.8,
+        "description": "Direct competition in shared market space"
+      },
+      "british_airways": {
+        "type": "competitive",
+        "intensity": 0.3,
+        "description": "Direct competition in shared market space"
+      },
+      "lufthansa": {
+        "type": "self",
+        "intensity": 0
+      },
+      "air_france": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      }
+    },
+    "air_france": {
+      "united": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      },
+      "delta": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      },
+      "british_airways": {
+        "type": "competitive",
+        "intensity": 0.2,
+        "description": "Direct competition in shared market space"
+      },
+      "lufthansa": {
+        "type": "competitive",
+        "intensity": 0.4,
+        "description": "Direct competition in shared market space"
+      },
+      "air_france": {
+        "type": "self",
+        "intensity": 0
+      }
+    }
+  },
+  "strategic_groups": {
+    "incumbent": [
+      "united",
+      "lufthansa"
+    ],
+    "challenger": [
+      "delta"
+    ],
+    "specialist": [
+      "british_airways"
+    ],
+    "follower": [
+      "air_france"
+    ]
+  }
+}

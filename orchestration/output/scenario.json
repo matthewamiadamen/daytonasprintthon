@@ -1,0 +1,21 @@
+{
+  "scenario_id": "transatlantic_route_competition_v1",
+  "title": "Transatlantic Route Competition",
+  "description": "Five major airlines — United, Delta, British Airways, Lufthansa, and Air France — compete to secure the most profitable transatlantic routes between North America and Europe. Each round involves bidding for airport slot allocations at congested hub airports (Heathrow, JFK, Frankfurt, CDG, Newark), negotiating bilateral alliance agreements, and setting pricing strategies for premium and economy cabins. Actors can form or break code-share agreements, lobby regulators for expanded slot access, and undercut rivals on yield-management pricing.",
+  "type": "multi-round competitive negotiation with alliance formation",
+  "rounds": 6,
+  "actors": ["United Airlines", "Delta Air Lines", "British Airways", "Lufthansa", "Air France"],
+  "payoff_structure": {
+    "win_condition": "Maximise revenue-per-available-seat-mile (RASM) and secure the highest-value slot portfolio across transatlantic hubs",
+    "zero_sum": false,
+    "cooperation_possible": true
+  },
+  "information_asymmetry": "Each airline privately knows its own cost structure, fleet availability, and internal revenue forecasts. Alliance negotiations are partially observable — partners share some data but hide yield figures. Slot bid values are sealed until awarded.",
+  "environment_params": {
+    "hub_airports": ["LHR", "JFK", "FRA", "CDG", "EWR"],
+    "cabin_classes": ["first", "business", "premium_economy", "economy"],
+    "alliance_groups": {"Star Alliance": ["United Airlines", "Lufthansa"], "oneworld": ["British Airways"], "SkyTeam": ["Delta Air Lines", "Air France"]},
+    "regulatory_regime": "EU-US Open Skies Agreement",
+    "fuel_price_volatility": "medium-high"
+  }
+}

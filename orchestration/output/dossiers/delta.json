@@ -1,0 +1,29 @@
+{
+  "id": "delta",
+  "name": "Delta Air Lines",
+  "type": "US legacy carrier, SkyTeam anchor, NYSE:DAL",
+  "known_decisions": [
+    "2024: Launched Delta One Lounge concept at JFK — $100M+ facility investment to anchor premium transatlantic positioning",
+    "2023: Deepened Air France-KLM JV revenue pool, adding 12 new immunised O&D pairs",
+    "2023: A321XLR order (30 aircraft) — first US carrier to order narrow-body transatlantic jet, targeting thin TATL routes unprofitable for widebodies",
+    "2022: Raised Delta One fares 18% citing 'demand inelasticity among premium travelers' — bet paid off with record TATL RASM",
+    "2021: Divested Latin America slots to fund transatlantic premium capacity expansion",
+    "2020: Ed Bastian publicly stated 'premium customer will fly again before leisure' — justified front-loading 787 deliveries to TATL"
+  ],
+  "financial_position": "FY2024: Revenue $61.4B, EBITDA margin ~17% — highest of the five. TATL RASM $0.1820, widest premium gap vs peers. Net debt $16.2B. FCF positive $3.1B in 2024.",
+  "public_stance": "CEO Ed Bastian frames Delta as 'a premium airline that happens to also fly economy'. Investor Day 2024: committed to 20%+ transatlantic RASM premium over industry average. Publicly targets United on each JFK-London/Paris/Frankfurt route in quarterly calls.",
+  "demographic_prior": "Challengers in oligopolies who have achieved product differentiation shift from price competition to quality signalling. Delta has crossed into the 'dominant challenger' category where it now defends its premium position as fiercely as incumbents defend slots. Decisions are faster than United/Lufthansa due to less union friction.",
+  "game_theory_profile": {
+    "rationality": "semi-rational",
+    "decision_model": "mixed strategy — expected utility maximisation on pricing, but prospect theory on alliance decisions (overweights Air France-KLM JV losses)",
+    "primary_bias": "overconfidence in premium demand durability — may overprice in a downturn",
+    "strategy_tendency": "aggressive premium pricing leader; cooperative with Air France-KLM JV partners; will sacrifice load factor to protect yield",
+    "known_weaknesses": [
+      "JFK Terminal 4 capacity ceiling creates a hard constraint — can't add frequencies without competing carrier slot deals",
+      "A321XLR bet requires thin TATL routes to mature faster than economics currently support",
+      "Air France-KLM JV creates obligation to consult partners — can delay responses to market changes",
+      "Premium positioning makes Delta vulnerable to recession or corporate travel demand shocks"
+    ],
+    "rationality_derived": "semi-rational — overconfident on premium durability, fast mover, JV constrained"
+  }
+}

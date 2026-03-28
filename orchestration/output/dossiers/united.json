@@ -1,0 +1,29 @@
+{
+  "id": "united",
+  "name": "United Airlines",
+  "type": "US legacy carrier, Star Alliance anchor, NYSE:UAL",
+  "known_decisions": [
+    "2023: Added 40 new transatlantic routes without adding hub infrastructure — accepted lower load factors to crowd out Norse Atlantic",
+    "2022: Ordered 100 Boeing 787-9/10 Dreamliners specifically to replace ageing 767 fleet on transatlantic",
+    "2021: Extended Lufthansa JV to cover more O&D pairs under DOT anti-trust immunity",
+    "2020: Refused government bailout conditions that would have required slot divestitures at Newark",
+    "2019: Acquired gate positions at LHR by acquiring slots from rival carriers — paid ~$80M per slot pair",
+    "2018: Launched Polaris business class to close product gap with Delta One and BA Club Suite"
+  ],
+  "financial_position": "FY2024: Revenue $57.1B, EBITDA margin ~15%, net debt $17.5B. TATL RASM $0.1640 — highest in United's history. CapEx guide $3.8B/yr through 2026 focused on fleet renewal.",
+  "public_stance": "CEO Scott Kirby has publicly committed to 'winning the premium transatlantic customer' — stated goal is closing RASM gap with Delta on business cabin by 2026. Explicitly stated United will defend every Newark slot 'to the last lawyer'.",
+  "demographic_prior": "US mega-carrier incumbents protect hubs obsessively and use scale advantages (Star Alliance depth, corporate contracts) before price-competing. They are slow to reduce prices but fast to match competitor capacity additions. Loss aversion around slot holdings is structurally embedded — losing a slot is treated as permanent, irreversible damage.",
+  "game_theory_profile": {
+    "rationality": "semi-rational",
+    "decision_model": "prospect theory with reference point anchoring on current slot portfolio",
+    "primary_bias": "loss aversion — treats slot losses as 2.5x more painful than equivalent slot gains are beneficial",
+    "strategy_tendency": "defend first, expand second — will absorb margin compression to protect slot base; expands opportunistically when competitors show financial weakness",
+    "known_weaknesses": [
+      "Slow to adapt yield strategy to new entrants (Norse, Play) — took 3 quarters to respond with low-fare product",
+      "Over-indexed on corporate travel demand — vulnerable when WFH reduces business travel volumes",
+      "Newark slot concentration means a single regulatory decision can destabilise entire TATL network",
+      "Star Alliance coordination creates decision lag — must consult Lufthansa before solo capacity moves"
+    ],
+    "rationality_derived": "semi-rational — loss averse on slots, deliberate, Star Alliance constrained"
+  }
+}
